@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="PROYECTA-IA · Chatbot transversal de cartas académicas para Proyecto de Grado de Ingeniería Electrónica - UPEA.">
+  <title>PROYECTA-IA · Cartas Académicas</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.8.0/mammoth.browser.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.8.69/pdf.min.mjs" type="module"></script>
+</head>
+<body class="access-locked">
+  <div id="accessGate" class="access-overlay" role="dialog" aria-modal="true" aria-labelledby="accessTitle">
+    <div class="access-card">
+      <div class="access-brand">PROYECTA-IA</div>
+      <h1 id="accessTitle">Acceso al chatbot transversal</h1>
+      <p>Ingresa tu número de C.I. autorizado. Por seguridad, cada chatbot solicita una nueva autenticación.</p>
+      <label for="ciAccess">C.I. (solo números)</label>
+      <input id="ciAccess" inputmode="numeric" autocomplete="off" placeholder="Ej.: 1234567">
+      <button id="accessBtn" class="primary">Ingresar</button>
+      <p id="accessMessage" class="access-message" aria-live="polite"></p>
+    </div>
+  </div>
+
+  <header class="topbar">
+    <div>
+      <span class="eyebrow">PROYECTA-IA · CHATBOT TRANSVERSAL</span>
+      <h1>Cartas académicas para Proyecto de Grado</h1>
+      <p class="subtitle">Carta-aval del tutor · Cambio de título y objetivos · Revisión guiada</p>
+    </div>
+    <button id="logoutBtn" class="ghost hidden">Cerrar acceso</button>
+  </header>
+
+  <main class="layout">
+    <section class="hero panel">
+      <div>
+        <span class="badge">Ingeniería Electrónica · UPEA</span>
+        <h2>Redacta la carta correcta antes de presentarla</h2>
+        <p>Este módulo orienta a estudiantes y tutores en dos documentos frecuentes del Proyecto de Grado: la <strong>carta-aval o conformidad del tutor</strong> para continuar a pre-defensa y la <strong>solicitud de modificación de título y objetivos</strong> dirigida al Honorable Consejo de Carrera.</p>
+      </div>
+      <div class="hero-note">
+        <strong>Importante</strong>
+        <p>Los modelos son orientativos. Sustituye todos los datos de ejemplo y verifica el procedimiento vigente antes de presentar la carta.</p>
+      </div>
+    </section>
+
+    <section class="panel">
+      <div class="section-head">
+        <div>
+          <span class="eyebrow">MODELOS WORD EDITABLES</span>
+          <h2>Descarga, adapta y presenta</h2>
+        </div>
+      </div>
+      <div class="downloads-grid">
+        <article class="download-card">
+          <span class="number">01</span><h3>Carta-aval del tutor · Modelo 1</h3>
+          <p>Seguimiento académico, metodológico y técnico; observaciones subsanadas y conformidad para pre-defensa.</p>
+          <a class="download" href="plantillas/01_Carta_Aval_Tutor_Modelo_1.docx" download>Descargar Word</a>
+        </article>
+        <article class="download-card">
+          <span class="number">02</span><h3>Carta-aval del tutor · Modelo 2</h3>
+          <p>Versión técnica: coherencia, diseño, hardware/software, pruebas y condiciones para continuar el proceso.</p>
+          <a class="download" href="plantillas/02_Carta_Aval_Tutor_Modelo_2.docx" download>Descargar Word</a>
+        </article>
+        <article class="download-card">
+          <span class="number">03</span><h3>Cambio de título y objetivos · Modelo 1</h3>
+          <p>Ejemplo de Control y Automatización con título, objetivo general y cuatro objetivos específicos propuestos.</p>
+          <a class="download" href="plantillas/03_Solicitud_Cambio_Titulo_Objetivos_Modelo_1.docx" download>Descargar Word</a>
+        </article>
+        <article class="download-card">
+          <span class="number">04</span><h3>Cambio de título y objetivos · Modelo 2</h3>
+          <p>Ejemplo de Telecomunicaciones que justifica el cambio por delimitación del alcance y coherencia técnica.</p>
+          <a class="download" href="plantillas/04_Solicitud_Cambio_Titulo_Objetivos_Modelo_2.docx" download>Descargar Word</a>
+        </article>
+      </div>
+    </section>
+
+    <section class="two-col">
+      <article class="panel guide">
+        <span class="eyebrow">GUÍA RÁPIDA</span>
+        <h2>¿Qué debe contener cada carta?</h2>
+        <details open><summary>Carta-aval del tutor</summary><p>Fecha y lugar; destinatario institucional; referencia; identificación del estudiante y del proyecto; condición de tutor; seguimiento/revisión realizada; atención de observaciones; conformidad para continuar; cierre y firma del tutor.</p></details>
+        <details><summary>Cambio de título y objetivos</summary><p>Fecha y lugar; destinatario institucional; referencia; identificación del estudiante; explicación breve del motivo; título anterior y propuesto; objetivo general anterior y propuesto; objetivos específicos actualizados; solicitud expresa; firma del estudiante y espacio de Vo. Bo. del docente.</p></details>
+        <details><summary>¿Qué no debe hacerse?</summary><p>No firmar por otras personas, no usar una firma escaneada del docente, no inventar números de resolución o aprobación, no afirmar que el HCC aprobó algo antes de contar con la resolución correspondiente y no mezclar el título anterior con los objetivos nuevos.</p></details>
+      </article>
+
+      <article class="panel chat-panel">
+        <span class="eyebrow">ASISTENTE GUIADO</span>
+        <h2>Consulta al chatbot</h2>
+        <div id="chat" class="chat" aria-live="polite">
+          <div class="msg bot">Hola. Puedo explicarte qué carta necesitas, ayudarte a adaptar un modelo o revisar la estructura de una carta que ya redactaste.</div>
+        </div>
+        <div class="quick-actions">
+          <button data-action="aval">Necesito una carta-aval</button>
+          <button data-action="cambio">Cambiar título y objetivos</button>
+          <button data-action="revisar">Revisar mi carta</button>
+          <button data-action="firmas">¿Quién firma?</button>
+        </div>
+        <div class="composer">
+          <textarea id="question" rows="3" placeholder="Escribe tu consulta..."></textarea>
+          <button id="sendBtn" class="primary">Enviar</button>
+        </div>
+      </article>
+    </section>
+
+    <section id="reviewSection" class="panel reviewer">
+      <span class="eyebrow">REVISIÓN PRELIMINAR</span>
+      <h2>Revisa tu carta antes de imprimirla</h2>
+      <p>Pega el contenido o carga un archivo. La revisión es orientativa y se centra en la estructura y los datos mínimos; no sustituye la revisión docente ni la decisión del HCC.</p>
+      <div class="review-controls">
+        <label>Tipo de carta
+          <select id="letterType"><option value="aval">Carta-aval del tutor</option><option value="cambio">Cambio de título y objetivos</option></select>
+        </label>
+        <label>Cargar archivo (.txt, .docx o .pdf)
+          <input id="fileInput" type="file" accept=".txt,.docx,.pdf">
+        </label>
+      </div>
+      <textarea id="letterText" rows="14" placeholder="Pega aquí el texto de la carta..."></textarea>
+      <button id="reviewBtn" class="primary">Revisar estructura</button>
+      <div id="reviewResult" class="review-result"></div>
+    </section>
+
+    <section class="panel footer-note">
+      <strong>Firma y Vo. Bo.</strong>
+      <p>Los modelos de cambio incluyen únicamente una línea en blanco para el Vo. Bo. de <strong>Dr. Luis Cabezas Tito, Ph. D. · Docente Taller de Tesis II · Paralelo A</strong>. No se incorpora ninguna firma digital o escaneada: la firma debe colocarse después de la revisión del documento presentado por el estudiante.</p>
+    </section>
+  </main>
+
+  <footer>PROYECTA-IA · Apoyo académico para Taller de Tesis II · Carrera de Ingeniería Electrónica - UPEA</footer>
+
+  <script src="app.js"></script>
+  <script src="https://luisctito-sketch.github.io/proyecta-ia-acceso/access.js"></script>
+</body>
+</html>
